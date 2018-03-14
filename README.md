@@ -38,6 +38,21 @@ Sample application to use Instagram Sandbox API.
     - ``$ node app``
 
 
+## Restriction
+
+If you use Sandbox Mode of Instagram API, you would be restricted for this mode. For example ..
+
+    - 10 users for each application.
+
+    - 20 most recent media for each user.
+
+    - 500 API call/hour.
+
+See this page for details of Sandbox Mode:
+
+    - https://www.instagram.com/developer/sandbox/
+
+
 ## Licensing
 
 This code is licensed under MIT.
