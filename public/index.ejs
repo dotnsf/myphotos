@@ -12,13 +12,29 @@
 </style>
 <script>
 $(function(){
+  getPhotos();
+
+  $('#frm').submit( function( event ){
+    event.preventDefault();
+    var username = $('#username').val();
+    getPhotos( username );
+
+    return false;
+  });
+});
+
+function getPhotos( username ){
+  //. Canvas のリセット方法？
+
   var obj = getBusyOverlay( 'viewport', {color:'black', opacity:0.5, text:'取得中', style:'text-decoration:blink; font-weight:bold; font-size:12px; color:white;' } );
+  var url = './photos';
+  if( username ){ url += '?username=' + username; }
   $.ajax({
-    url: './myphotos',
+    url: url,
     type: 'GET',
     success: function( result ){
       obj.remove();
-      console.log( result );
+      //console.log( result );
       result = JSON.parse( result );
       if( result.status && result.items ){
         var items = result.items;
@@ -40,7 +56,7 @@ $(function(){
 
         $('.myclass').slick({
           infinite: true,
-          slidesToShow: 3,
+          slidesToShow: 1,
           slidesToScroll: 1,
           initialSlide: 0,
           arrows: true,
@@ -53,7 +69,7 @@ $(function(){
       console.log( "error" );
     }
   });
-});
+}
 </script>
 <style>
 </style>
@@ -61,6 +77,12 @@ $(function(){
 <body>
 <div class="myclass" id="myclass">
 </div>
+<!--
+<div>
+  <form id="frm">
+    <input type="text" id="username" value=""/>
+  </form>
+</div>
+-->
 </body>
 </html>
-

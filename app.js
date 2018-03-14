@@ -16,14 +16,21 @@ app.get( '/', function( req, res ){
   res.end();
 });
 
-app.get( '/myphotos', function( req, res ){
+app.get( '/photos', function( req, res ){
   var items = [];
+  var user_id = 'self';
+  if( req.query.username ){
+    getUserId( req.query.username ).then( function( _user_id ){
+      if( _user_id ){ user_id = _user_id; }
+    });
+  }
 
   //. https://api.instagram.com/v1/users/self/media/recent?access_token=(access_token)
-  var options0 = { url: 'https://api.instagram.com/v1/users/self/media/recent?access_token=' + settings.access_token, method: 'GET' };
+  var options0 = { url: 'https://api.instagram.com/v1/users/' + user_id + '/media/recent?access_token=' + settings.access_token, method: 'GET' };
+  //console.log( options0 );
   request( options0, ( err0, res0, body0 ) => {
     if( err0 ){
-      //console.log( 'err0 = ' + JSON.stringify(err0) );
+      console.log( 'err0 = ' + JSON.stringify(err0) );
       res.write( JSON.stringify( { status: false, error: error }, 2, null ) );
       res.end();
     }else{
@@ -41,7 +48,7 @@ app.get( '/myphotos', function( req, res ){
         var image_url = image.standard_resolution.url;
 
         var created_time = data[i].created_time;
-        
+
         var caption = data[i].caption;
         var caption_text = ( caption && caption.text ? caption.text : '' );
 
@@ -66,10 +73,27 @@ app.get( '/myphotos', function( req, res ){
   });
 });
 
+function getUserId( username ){
+  return new Promise( function( resolve ){
+    var options0 = { url: 'https://api.instagram.com/v1/users/search?q=' + username + '&access_token=' + settings.access_token, method: 'GET' };
+    request( options0, ( err0, res0, body0 ) => {
+      if( err0 ){
+        resolve( null );
+      }else{
+        //console.log( body0 );
+        //console.log( 'body0 = ' + JSON.stringify(body0) );
+        body0 = JSON.parse( body0 );
+        if( body0.data && body0.data.length && body0.data[0].id ){
+          resolve( body0.data[0].id );
+        }else{
+          resolve( null );
+        }
+      }
+    });
+  });
+}
+
 
 var port = /*appEnv.port ||*/ 3000;
 app.listen( port );
 console.log( "server starting on " + port + " ..." );
-
-
-
