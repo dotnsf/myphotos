@@ -46,6 +46,8 @@ app.get( '/photos', function( req, res ){
 
         var image = data[i].images;
         var image_url = image.standard_resolution.url;
+        var image_width = image.standard_resolution.width;
+        var image_height = image.standard_resolution.height;
 
         var created_time = data[i].created_time;
 
@@ -60,6 +62,8 @@ app.get( '/photos', function( req, res ){
           username: user_username,
           user_picture: user_profile_picture,
           image_url: image_url,
+          image_width: image_width,
+          image_height: image_height,
           created: new Date( created_time ),
           text: caption_text,
           link: link
