@@ -98,6 +98,6 @@ function getUserId( username ){
 }
 
 
-var port = /*appEnv.port ||*/ 3000;
+var port = appEnv.port || 3000;
 app.listen( port );
 console.log( "server starting on " + port + " ..." );
