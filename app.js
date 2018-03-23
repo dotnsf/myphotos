@@ -19,14 +19,18 @@ app.get( '/', function( req, res ){
 app.get( '/photos', function( req, res ){
   var items = [];
   var user_id = 'self';
+  var access_token = null;
+  if( req.query.access_token ){
+    access_token = req.query.access_token;
+  }
   if( req.query.username ){
-    getUserId( req.query.username ).then( function( _user_id ){
+    getUserId( access_token, req.query.username ).then( function( _user_id ){
       if( _user_id ){ user_id = _user_id; }
     });
   }
 
   //. https://api.instagram.com/v1/users/self/media/recent?access_token=(access_token)
-  var options0 = { url: 'https://api.instagram.com/v1/users/' + user_id + '/media/recent?access_token=' + settings.access_token, method: 'GET' };
+  var options0 = { url: 'https://api.instagram.com/v1/users/' + user_id + '/media/recent?access_token=' + access_token, method: 'GET' };
   //console.log( options0 );
   request( options0, ( err0, res0, body0 ) => {
     if( err0 ){
@@ -77,9 +81,9 @@ app.get( '/photos', function( req, res ){
   });
 });
 
-function getUserId( username ){
+function getUserId( access_token, username ){
   return new Promise( function( resolve ){
-    var options0 = { url: 'https://api.instagram.com/v1/users/search?q=' + username + '&access_token=' + settings.access_token, method: 'GET' };
+    var options0 = { url: 'https://api.instagram.com/v1/users/search?q=' + username + '&access_token=' + access_token, method: 'GET' };
     request( options0, ( err0, res0, body0 ) => {
       if( err0 ){
         resolve( null );
