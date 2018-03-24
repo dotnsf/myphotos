@@ -19,16 +19,32 @@ Sample application to use Instagram Sandbox API.
 
 - Deploy application into the server with applied redirect URI.
 
+- Edit settings.js with client_id and redirect_uri of above Instagram Developer's(optional)
+
+- Install libraries:
+
+    - ``$ npm install``
+
 - Deploy and Run this application again:
 
     - ``$ node app``
 
 
-## run
+## How to Use
 
 - Access to web application with parameter client_id and redirect_uri:
 
-    - ``https://xxx.xxx.com/?client_id=(client_id)&redirect_uri=(redirect_uri)``
+    - Edit settings.js with client_id and redirect_uri, and browse web application: 
+
+        - ``https://xxx.xxx.com/``
+
+    - , or browse with URL parameters:
+
+        - ``https://xxx.xxx.com/?client_id=(client_id)&redirect_uri=(redirect_uri)``
+
+- Login with your Instagram account.
+
+- You will see your recent posted images and movies. You can flick and slide images. You can also tap single image to see detailed information with Instagram.
     
 
 ## Restriction

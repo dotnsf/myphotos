@@ -1,4 +1,5 @@
 //. settings.js
-exports.access_token = '';
+exports.client_id = '';
+exports.redirect_uri = '';
 
 

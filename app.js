@@ -12,7 +12,7 @@ app.use( express.static( __dirname + '/public' ) );
 
 app.get( '/', function( req, res ){
   var template = fs.readFileSync( __dirname + '/public/index.ejs', 'utf-8' );
-  res.write( ejs.render( template, {} ) );
+  res.write( ejs.render( template, { client_id: settings.client_id, redirect_uri: settings.redirect_uri} ) );
   res.end();
 });
 
